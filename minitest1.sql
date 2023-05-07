@@ -17,4 +17,17 @@ where id = 10 or id = 1;
  from students
  inner join address 
  on students.address_id = address.id
- group by address_id
+ group by address_id;
+SELECT c.name, AVG(p.point) AS avg_point
+FROM course c
+JOIN point p ON c.id = p.course_id
+GROUP BY c.id, c.name
+HAVING AVG(p.point) = (
+  SELECT MAX(avg_point)
+  FROM (
+	   SELECT AVG(point) AS avg_point
+	   FROM point
+	   GROUP BY course_id
+  ) AS subquery
+);
+	
